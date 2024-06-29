@@ -1,3 +1,7 @@
 ## Hi there 👋
 
-run npm i init before running it
+Try 
+~npm i init 
+
+If Running Over node On facing module error
+
