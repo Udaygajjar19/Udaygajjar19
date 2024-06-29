@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #45a049;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: white;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .task-box {
+            width: 700px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .dropdown button {
+            background-color: #45a049;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            width: 200px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+        }
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown.show-names .dropdown-content {
+            left: 0;
+        }
+        .dropdown.add-names .dropdown-content {
+            left: auto;
+            right: 0;
+        }
+        .members-list {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="navbar-brand">EDIT TASKS</span>
+    </div>
+
+    <div class="container">
+        <div class="task-box" id="task1">
+            <h5>Task 1</h5>
+            <div class="dropdown show-names">
+                <button onclick="toggleDropdown('namesList-task1')">Delete Names ▼</button>
+                <div class="dropdown-content names-list" id="namesList-task1">
+                    <a href="#" onclick="removeName('task1', 'Pradeep')">Pradeep</a>
+                    <a href="#" onclick="removeName('task1', 'Uday')">Uday</a>
+                    <a href="#" onclick="removeName('task1', 'Jaydeep')">Jaydeep</a>
+              
+                </div>
+            </div>
+            <div class="dropdown add-names">
+                <button onclick="toggleDropdown('addNameList-task1')">Add Name ▶</button>
+                <div class="dropdown-content add-name-list" id="addNameList-task1">
+                    <a href="#" onclick="addName('task1', 'Pradeep')">Pradeep</a>
+                    <a href="#" onclick="addName('task1', 'Uday')">Uday</a>
+                    <a href="#" onclick="addName('task1', 'Jaydeep')">Jaydeep</a>
+ 
+                </div>
+            </div>
+            <div class="members-list" id="members-task1">
+                <!-- Members will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function addName(taskId, name) {
+            const membersList = document.getElementById(`members-${taskId}`);
+            const existingNames = Array.from(membersList.children).map(child => child.textContent);
+            if (!existingNames.includes(name)) {
+                const nameElement = document.createElement('div');
+                nameElement.textContent = name;
+                membersList.appendChild(nameElement);
+            }
+        }
+
+        function removeName(taskId, name) {
+            const membersList = document.getElementById(`members-${taskId}`);
+            const memberElements = Array.from(membersList.children);
+            for (let i = 0; i < memberElements.length; i++) {
+                if (memberElements[i].textContent === name) {
+                    memberElements[i].remove();
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

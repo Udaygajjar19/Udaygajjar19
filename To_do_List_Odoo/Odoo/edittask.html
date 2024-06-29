@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .task {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .task h3,
+        .task p {
+            margin: 0;
+            padding: 5px 0;
+            font-size: 18px;
+        }
+
+        .task .edit-button,
+        .task .save-button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .edit-button:hover,
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+
+        .editable-input {
+            width: calc(100% - 30px);
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        .navbar {
+            background-color: #45a049;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+        .btn {
+        width: 5;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align:center ;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="navbar-brand\">EDIT TASKS</span>
+    </div>
+<br><br>
+    <div class="task" id="task1">
+        <h3><span id="heading-task1">Conduct Market Research</span></h3>
+        <p><span id="description-task1">Description: Analyze market trends and user feedback to identify new opportunities or improvements for current products.</span></p>
+        <p><span id="due-date-task1">Due Date: June 30, 2024</span></p>
+    </div>
+
+    <div class="task" id="task2">
+        <h3><span id="heading-task2">Create API Documentation</span></h3>
+        <p><span id="description-task2">Description: Document APIs for developers, including usage examples, endpoints, authentication methods, and error handling procedures.</span></p>
+        <p><span id="due-date-task2">Due Date: July 5, 2024</span></p>
+    </div>
+
+
+
+    <button class="edit-button btn" onclick="toggleEditMode()">Edit Tasks</button>
+    <button class="save-button" onclick="saveTasks()" style="display: none;">Save Tasks</button>
+
+    <script>
+        function toggleEditMode() {
+            const tasks = document.querySelectorAll('.task');
+            tasks.forEach(task => {
+                toggleTaskEditMode(task);
+            });
+            const editButton = document.querySelector('.edit-button');
+            const saveButton = document.querySelector('.save-button');
+            editButton.style.display = 'none';
+            saveButton.style.display = 'inline-block';
+        }
+
+        function toggleTaskEditMode(task) {
+            const headings = task.querySelectorAll('h3 span');
+            const descriptions = task.querySelectorAll('p span');
+            headings.forEach(span => {
+                const text = span.textContent.trim();
+                const input = createEditableInput(text);
+                span.replaceWith(input);
+            });
+            descriptions.forEach(span => {
+                const text = span.textContent.trim();
+                const input = createEditableInput(text);
+                span.replaceWith(input);
+            });
+        }
+
+        function createEditableInput(value) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = value.replace(/^.+: /, ''); // Remove 'Description: ' or 'Due Date: '
+            input.className = 'editable-input';
+            return input;
+        }
+
+        function saveTasks() {
+            const tasks = document.querySelectorAll('.task');
+            tasks.forEach(task => {
+                const headingInput = task.querySelector('h3 input');
+                const descriptionInput = task.querySelector('p:nth-of-type(1) input');
+                const dueDateInput = task.querySelector('p:nth-of-type(2) input');
+
+                const headingSpan = document.createElement('span');
+                headingSpan.textContent = headingInput.value;
+                headingInput.replaceWith(headingSpan);
+
+                const descriptionSpan = document.createElement('span');
+                descriptionSpan.textContent = "Description: " + descriptionInput.value;
+                descriptionInput.replaceWith(descriptionSpan);
+
+                const dueDateSpan = document.createElement('span');
+                dueDateSpan.textContent = "Due Date: " + dueDateInput.value;
+                dueDateInput.replaceWith(dueDateSpan);
+            });
+
+            const editButton = document.querySelector('.edit-button');
+            const saveButton = document.querySelector('.save-button');
+            editButton.style.display = 'inline-block';
+            saveButton.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

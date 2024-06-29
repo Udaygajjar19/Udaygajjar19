@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .create-account-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .create-account-container h1 {
+            margin-bottom: 20px;
+        }
+        .create-account-container input[type="text"],
+        .create-account-container input[type="email"],
+        .create-account-container input[type="password"],
+        .create-account-container select {
+            width: 90%;
+            padding: 11px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .create-account-container button {
+            width: 40%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            font-size: 25px;
+        }
+        .create-account-container button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="create-account-container">
+    <h1>Create Account</h1>
+    <form id="createAccountForm" action="/create-account" method="post">
+        <input type="text" id="name" name="name" placeholder="Name" required>
+        <input type="email" id="email" name="email" placeholder="Email Address" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <select id="role" name="department" style="width: 90%;" required >
+            <option value="Role" disabled selected>Role</option>
+            <option value="HR">HR</option>
+            <option value="DevOps">DevOps</option>
+            <option value="Frontend">Frontend</option>
+            <option value="Backend">Backend</option>
+        </select>
+        <button type="button" id="createAccountBtn" onclick="createAccount()">Create Account</button>
+    </form>
+</div>
+
+<!-- <script src="create_account.js"></script> -->
+<script type="module" src="create_account.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #4CAF50 !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .btn-custom {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #45a049;
+        }
+
+        .task {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            padding: 20px;
+        }
+
+        .task-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
+
+        .chatbox {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .message .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .message .text {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .message .text.admin {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">Todo List</a>
+        <div class="ml-auto">
+            <button class="btn btn-custom mx-2" data-toggle="modal" data-target="#addTaskModal">Assign New Task</button>
+            <button class="btn btn-custom mx-2" onclick="window.location.href='edittask.html'">Edit Task</button>
+            <button class="btn btn-custom" onclick="window.location.href='edittaskmember.html'">Edit Task Members</button>
+        </div>
+    </nav>
+    <div class="container mt-5 pt-4">
+        <div id="tasksContainer">
+            <!-- Tasks will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTaskModalLabel">Add Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add Task Form -->
+                    <form id="addTaskForm">
+                        <div class="form-group">
+                            <label for="taskTitle">Task Title</label>
+                            <input type="text" class="form-control" id="taskTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDescription">Task Description</label>
+                            <textarea class="form-control" id="taskDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="hrName">Assign to HR</label>
+                            <select class="form-control" id="hrName" required>
+                                <option value="">Select HR</option>
+                                <option value="HR 1">Krishna</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-custom">Add Task</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbox Modal -->
+    <div class="modal fade" id="chatboxModal" tabindex="-1" aria-labelledby="chatboxModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatboxModalLabel">Chatbox</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body chatbox" id="chatboxContent">
+                    <!-- Messages will be dynamically added here -->
+                </div>
+                <div class="modal-footer">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Type a message...">
+                    <button type="button" class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadTasks();
+
+            $('#addTaskForm').on('submit', function (event) {
+                event.preventDefault();
+                addTask();
+            });
+        });
+
+        function loadTasks() {
+            // Simulating task loading from server with sample data
+            const tasks = [
+             
+            ];
+            const tasksContainer = $('#tasksContainer');
+            tasksContainer.empty();
+            tasks.forEach(task => {
+                tasksContainer.append(`
+                    <div class="task">
+                        <div class="task-title">${task.title}</div>
+                        <p>${task.description}</p>
+                        <p><strong>Assigned to:</strong> ${task.hr}</p>
+                        <button class="btn btn-custom" onclick="openChatbox('${task.title}')">Chatbox</button>
+                    </div>
+                `);
+            });
+        }
+
+        function addTask() {
+            const taskTitle = $('#taskTitle').val().trim();
+            const taskDescription = $('#taskDescription').val().trim();
+            const hrName = $('#hrName').val().trim();
+            if (taskTitle && taskDescription && hrName) {
+                // Simulating task addition to the server
+                $('#tasksContainer').append(`
+                    <div class="task">
+                        <div class="task-title">${taskTitle}</div>
+                        <p>${taskDescription}</p>
+                        <p><strong>Assigned to:</strong> ${hrName}</p>
+                        <button class="btn btn-custom" onclick="openChatbox('${taskTitle}')">Chatbox</button>
+                    </div>
+                `);
+                $('#addTaskModal').modal('hide');
+                $('#addTaskForm')[0].reset();
+            }
+        }
+
+        function openChatbox(taskTitle) {
+            $('#chatboxModalLabel').text(`Chatbox - ${taskTitle}`);
+            $('#chatboxContent').html(`
+                <div class="message">
+                    <div class="avatar">A</div>
+                    <div class="text">This is a message about ${taskTitle}.</div>
+                </div>
+                <div class="message">
+                    <div class="avatar admin">U</div>
+                    <div class="text admin">This is a response from the user.</div>
+                </div>
+            `);
+            $('#chatboxModal').modal('show');
+        }
+
+        function sendMessage() {
+            const chatInput = $('#chatInput');
+            const chatboxContent = $('#chatboxContent');
+            const message = chatInput.val().trim();
+            if (message) {
+                const newMessage = `
+                    <div class="message">
+                        <div class="avatar admin">U</div>
+                        <div class="text admin">${message}</div>
+                    </div>
+                `;
+                chatboxContent.append(newMessage);
+                chatInput.val('').focus();
+                chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
+            }
+        }
+    </script>
+</body>
+
+</html>

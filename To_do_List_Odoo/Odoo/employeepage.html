@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .tasks {
+            background-color: #f8f9fa;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .tasks h3, .tasks p {
+            margin: 0;
+            padding: 5px 0;
+        }
+        .tasks .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .tasks .button-container button {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .tasks .button-container button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="navbar-brand">Welcome Mr.Jayddeep</span>
+    </div>
+
+    <div class="tasks">
+        <h3>Optimize Database Performance</h3>
+        <p>Description: Review and optimize database queries and structure to
+            enhance application performance and reduce response times.</p>
+        <p>Due Date: June 30, 2024</p>
+        
+        <div class="button-container">
+            <button onclick="markComplete()">Complete</button>
+            <button onclick="markIncomplete()">Incomplete</button>
+        </div>
+    </div>
+
+    
+    </div>
+
+    <script>
+        function markComplete() {
+            alert("Task marked as complete!");
+            // Add your completion logic here
+        }
+
+        function markIncomplete() {
+            alert("Task marked as incomplete!");
+            // Add your incomplete logic here
+        }
+    </script>
+</body>
+</html>
